@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="user-scalable=no">
+		<title></title>
+
+		<style type="text/css">
+			body {
+				background-color: gray;
+			}
+			#board {
+				
+				border-left: solid 1px white;
+				border-top: solid 1px white;
+				width: 601px;
+				height: 600px;
+				float: left;
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				background-image: url(../img/星空棋盘.png);
+			}
+			
+			#board td {
+				padding: 0px; //默认1px
+				border: 0px;
+				width: 39px;
+				height: 39px;
+				border-right: solid 1px white;
+				border-bottom: solid 1px white;
+			}
+			
+			#msg {
+				float: left;
+				width: 160px;
+				height: 600px;
+				background-color: #dcdcdc;
+				position: absolute;
+				top: 0px;
+				left: 600px;
+			}
+			
+			#set {
+				padding: 0px;
+				float: left;
+				width: 158px;
+				height: 80px;
+				font-family: "微软雅黑";
+				font-size: 40px;
+				color: blue;
+			}
+			
+			#cd {
+				text-align: center;
+				font-family: "宋体";
+				font-size: 28px;
+				float: left;
+				border: solid 1px black;
+				width: 88px;
+				height: 48px;
+			}
+			
+			#val {
+				text-align: center;
+				font-size: 40px;
+				float: left;
+				border: solid 1px black;
+				width: 68px;
+				height: 48px;
+			}
+			
+			#cz {
+				font-size: 40px;
+				width: 160px;
+				height: 70px;
+			}
+		</style>
+		<script src="../js/jquery-3.1.1.min.js">
+		</script>
+	</head>
+
+	<body>
+		<table id="board" cellspacing="0px">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</body>
+	<script type="text/javascript">
+//		var board = document.getElementById("board");
+//
+//		for(var i = 0; i < board.rows.length; i++) {
+//			for(var j = 0; j < board.rows[i].cells.length; j++) {
+//				var cell = board.rows[i].cells[j].bgColor;
+//				if(i % 2 == 0) {
+//					if(j % 2 == 0) {
+//						board.rows[i].cells[j].bgColor = "#33ff33";
+//					} else {
+//						board.rows[i].cells[j].bgColor = "#00cc00";
+//					}
+//				} else {
+//					if(j % 2 == 0) {
+//						board.rows[i].cells[j].bgColor = "#00cc00";
+//					} else {
+//						board.rows[i].cells[j].bgColor = "#33ff33";
+//					}
+//				}
+//			}
+//		}
+	</script>
+	<script type="text/javascript">
+		var qipan = new Array();
+		for(var i = 0; i < 15; i++) {
+			qipan[i] = new Array();
+			for(var j = 0; j < 15; j++) {
+				qipan[i][j] = 0;
+			}
+		}
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("td").click(function() {
+				var qs = parseInt($(".v1").html());
+				
+				var row = $(this).parent().index();
+				var column = $(this).index();
+				if(qipan[row][column] == 0) {
+					if(qs % 2 == 0) {
+						$(this).css("background-image", "url(../img/black1.png))");
+						qipan[row][column] = 1;
+						$("#set").val("白方下");
+					} else {
+						$(this).css("background-image", "url(../img/black1.png)");
+						qipan[row][column] = 2;
+						$("#set").val("黑方下");
+					}
+					qs += 1;
+					$(".v1").html(qs);
+					$(".v2").html(Math.ceil(qs / 2));
+					if(isWin(row, column)) {
+						if(qs % 2 == 0) {
+							alert("白方胜");
+						} else {
+							alert("黑方胜");
+						}
+						reSet();
+					}
+				}
+			})
+		})
+
+		$(document).ready(function() {
+			$("#cz").click(function() {
+				reSet();
+			})
+		})
+
+		function reSet() {
+			var board = document.getElementById("board");
+
+			for(var i = 0; i < 15; i++) {
+				for(var j = 0; j < 15; j++) {
+					qipan[i][j] = 0;
+					board.rows[i].cells[j].style.background = "";
+				}
+			}
+			$(".v1").html("0");
+			$(".v2").html("0");
+			$("#set").val("黑方下");
+		}
+
+		function isWin(row, column) {
+			if(isRowWin(row, column) || isColWin(row, column) || isX1Win(row, column) || isX2Win(row, column)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function isRowWin(row, column) {
+			var sum = 1;
+			var c = qipan[row][column];
+			for(var l = 1; l <= getMin2(4, column - 0); l++) {
+				if(c == qipan[row][column - l]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+			if(sum == 5) {
+				return true;
+			}
+
+			for(var r = 1; r <= getMin2(4, 14 - column); r++) {
+				if(c == qipan[row][column + r]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+			if(sum > 4) {
+				return true;
+
+			} else {
+				return false;
+			}
+		}
+
+		function isColWin(row, column) {
+			var sum = 1;
+			var c = qipan[row][column];
+			for(var t = 1; t <= getMin2(4, (row - 0)); t++) {
+				if(c == qipan[row - t][column]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+			if(sum == 5) {
+				return true;
+			}
+
+			for(var b = 1; b <= getMin2(4, 14 - row); b++) {
+				if(c == qipan[row + b][column]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+			if(sum > 4) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function isX1Win(row, column) {
+			var sum = 1;
+			var c = qipan[row][column];
+			for(var l = 1; l <= getMin3(4, column - 0, row - 0); l++) {
+				if(c == qipan[row - l][column - l]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+
+			if(sum == 5) {
+				return true;
+			}
+
+			for(var r = 1; r <= getMin3(4, 14 - column, 14 - row); r++) {
+				if(c == qipan[row + r][column + r]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+
+			if(sum > 4) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function isX2Win(row, column) {
+			var sum = 1;
+			var c = qipan[row][column];
+			for(var l = 1; l <= getMin3(4, 14 - column, row - 0); l++) {
+				if(c == qipan[row - l][column + l]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+
+			if(sum == 5) {
+				return true;
+			}
+
+			for(var r = 1; r <= getMin3(4, column - 0, 14 - row); r++) {
+				if(c == qipan[row + r][column - r]) {
+					sum += 1;
+				} else {
+					break;
+				}
+			}
+			if(sum > 4) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function getMin2(no1, no2) {
+			return(no1 <= no2 ? no1 : no2);
+		}
+
+		function getMin3(no1, no2, no3) {
+			return getMin2(getMin2(no1, no2), no3);
+		}
+	</script>
+
+</html>
