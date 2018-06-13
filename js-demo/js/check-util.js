@@ -1,87 +1,103 @@
-let check = {
-	isLian5: (row, column) => isWin(row, column),
-	isHuo4: (row, column) => {
+let map = new Map();
+map.set(1,100000);
+map.set(2,10000);
+map.set(3,1500);
+map.set(4,1000);
+map.set(5,150);
+map.set(6,100);
+map.set(7,15);
+map.set(8,0);
 
-	},
-	isDead4: (row, column) => {
-
-	},
-	isHuo3: (row, column) => {
-
-	},
-	isMian3: (row, column) => {
-
-	},
-	isHuo2: (row, column) => {
-
-	},
-	isMian2: (row, column) => {
-
+class ScoreInfo {
+	constructor(row, column, score) {
+		this.row = row;
+		this.column = column;
+		this.score = score;
 	}
+
 }
 class Pair {
-	constructor(half1, half2,type,
-		half1Continue,half2Continue) {
+	constructor(half1, half2, type,
+		half1Continue, half2Continue) {
 		this.half1 = half1;
 		this.half2 = half2;
 		this.type = type;
 		this.half1Continue = half1Continue;
 		this.half2Continue = half2Continue;
 		this.continue =
-			half1Continue+half2Continue+1;
+			half1Continue + half2Continue + 1;
 	}
 	isHalf1ValEmpty(index) {
-		return getHalf1Val(index)==0;
+		return this.getHalf1Val(index) == 0;
 	}
+	isHalf2ValEmpty(index) {
+		return this.getHalf2Val(index) == 0;
+	}
+	
+	isHalf1ValEquals(index) {
+		return this.getHalf1Val(index) == type;
+	}
+	isHalf2ValEquals(index) {
+		return this.getHalf2Val(index) == type;
+	}
+	
 	getHalf1Val(index) {
-		return (index+this.half2Continue>4)?3:this.half1[index+this.half1Continue];
+		return(index + this.half1Continue > 4) ? 3 : this.half1[index + this.half1Continue];
 	}
 	getHalf2Val(index) {
-		return (index+this.half2Continue>4)?3:this.half2[index+this.half2Continue];
+		return(index + this.half2Continue > 4) ? 3 : this.half2[index + this.half2Continue];
 	}
 }
 
 function getScore(pair) {
-	
-	if(pair.continue>= 5) {
-		return 100000;
-	} else if( pair.continue == 4) {
-		if(pair.isHalf1ValEmpty(1)&&pair.isHalf2ValEmpty(1)) {
-			return 10000;
-		} else if(!pair.isHalf1ValEmpty(1)&&!pair.isHalf2ValEmpty(1)) {
-			return 0;
+	var type = 0;
+	if(pair.continue >= 5) {
+		type = 1;
+	} else if(pair.continue == 4) {
+		if(pair.isHalf1ValEmpty(1) && pair.isHalf2ValEmpty(1)) {
+			type = 2;
+		} else if(!pair.isHalf1ValEmpty(1) && !pair.isHalf2ValEmpty(1)) {
+			type = 8;
 		} else {
-			return 1500;
+			type = 3;
 		}
-	} else if( pair.continue == 3) {
-		if(pair.isHalf1ValEmpty(1)&&pair.isHalf2ValEmpty(1)) {
-			if(pair.isHalf1ValEmpty(2)||pair.isHalf2ValEmpty(2)) {
-				return 1000;
+	} else if(pair.continue == 3) {
+		// 两侧有空
+		if(pair.isHalf1ValEmpty(1) && pair.isHalf2ValEmpty(1)) {
+			if(pair.isHalf1ValEmpty(2) || pair.isHalf2ValEmpty(2)) {
+				type = 4;
 			} else {
-				return 150;
+				type = 5;
 			}
-		} else if(!pair.isHalf1ValEmpty(1)&&!pair.isHalf2ValEmpty(2)) {
-			return 0;
-		} else {
-			if(pair.isHalf1ValEmpty(1)) {
+		
+		} else if(!pair.isHalf1ValEmpty(1) && !pair.isHalf2ValEmpty(2)) {// 两侧无空
+			type = 8;
+		} else { // 两侧有一侧为空
+			if(pair.isHalf1ValEmpty(1)) { //
 				if(pair.isHalf1ValEmpty(2)) {
-					return 150;
+					type = 5;
+				} else if(pair.isHalf1ValEquals(2)) {
+					type = 3;
 				} else {
-					return 0;
+					type = 8;
 				}
 			} else {
 				if(pair.isHalf2ValEmpty(2)) {
-					return 150;
+					type = 5;
+				} else if(pair.isHalf2ValEquals(2)) {
+					type = 3;
 				} else {
-					return 0;
+					type = 8;
 				}
 			}
 		}
-	} else if( pair.continue == 2) {
-		return 100000;
-	} else if( pair.continue == 1) {
-		return 100000;
+	} else if(pair.continue == 2) {
+		type = 6;
+	} else if(pair.continue == 1) {
+		type = 7;
 	}
+	var val = map.get(type);
+	return val;
 }
 
 function getRowPair(row, column, type) {
@@ -94,7 +110,7 @@ function getRowPair(row, column, type) {
 		half1.push(h1);
 		half2.push(h2);
 	}
-	return getPair(half1,half2,type);
+	return getPair(half1, half2, type);
 }
 
 function getColumnPair(row, column, type) {
@@ -108,7 +124,7 @@ function getColumnPair(row, column, type) {
 		half2.push(h2);
 	}
 
-	return getPair(half1,half2,type);
+	return getPair(half1, half2, type);
 }
 
 function getX1Pair(row, column, type) {
@@ -121,7 +137,7 @@ function getX1Pair(row, column, type) {
 		half1.push(h1);
 		half2.push(h2);
 	}
-	return getPair(half1,half2,type);
+	return getPair(half1, half2, type);
 }
 
 function getX2Pair(row, column, type) {
@@ -134,11 +150,11 @@ function getX2Pair(row, column, type) {
 		half1.push(h1);
 		half2.push(h2);
 	}
-	return getPair(half1,half2,type);
+	return getPair(half1, half2, type);
 }
 
 function calContinue(half, type) {
-	var sum = 1;
+	var sum = 0;
 	for(var i of half) {
 		if(i == type) {
 			sum++
@@ -146,15 +162,145 @@ function calContinue(half, type) {
 			break;
 		}
 	}
-	
+
 	return sum;
 }
 
-function getPair(half1,half2,type) {
+function getPair(half1, half2, type) {
 	let half1Continue = calContinue(half1, type);
 	let half2Continue = calContinue(half2, type);
 
-	let pair = new Pair(half1, half2,type,
-		half1Continue,half2Continue);
+	let pair = new Pair(half1, half2, type,
+		half1Continue, half2Continue);
+		if(pair.continue==4) {
+			debugger;
+		}
 	return pair;
+}
+
+let enemyMax = 0;
+let mineMax = 0;
+
+function calEnemy(scoreInfos) {
+	let max = 0;
+	$("#calBoardEnemy td").html("");
+	for(var i = 0; i < 15; i++) {
+		for(var j = 0; j < 15; j++) {
+			if(qipan[i][j] == 0) {
+				var pair1 = getRowPair(i, j, 1);
+				var pair2 = getColumnPair(i, j, 1);
+				var pair3 = getX1Pair(i, j, 1);
+				var pair4 = getX2Pair(i, j, 1);
+				var sum = getScore(pair1) + getScore(pair2) + getScore(pair3) + getScore(pair4);
+				scoreInfos[i][j].enemy = sum;
+				$("#calBoardEnemy tr:eq("+i+") td:eq("+j+")").html(sum);
+				if(sum > max) {
+					max = sum;
+				}
+			}
+
+		}
+	}
+	enemyMax = max;
+}
+
+function calMine(scoreInfos) {
+	let max = 0;
+	$("#calBoardMine td").html("");
+	for(var i = 0; i < 15; i++) {
+		for(var j = 0; j < 15; j++) {
+			if(qipan[i][j] == 0) {
+				var pair1 = getRowPair(i, j, 2);
+				var pair2 = getColumnPair(i, j, 2);
+				
+				var pair3 = getX1Pair(i, j, 2);
+				var pair4 = getX2Pair(i, j, 2);
+				var sum = getScore(pair1) + getScore(pair2) + getScore(pair3) + getScore(pair4);
+				scoreInfos[i][j]={};
+				scoreInfos[i][j].mine = sum;
+				$("#calBoardMine tr:eq("+i+") td:eq("+j+")").html(sum);
+				if(sum > max) {
+					max = sum;
+				}
+			}
+
+		}
+	}
+	mineMax = max;
+}
+
+function getEnemyHighList(scoreInfos) {
+	let list = [];
+
+	for(var i = 0; i < 15; i++) {
+		for(var j = 0; j < 15; j++) {
+			var score = scoreInfos[i][j];
+			if(score&&enemyMax == score.enemy) {
+				list.push(new ScoreInfo(i,j,scoreInfos[i][j].mine));
+			}
+		}
+	}
+	return list;
+}
+
+function getMineHighList(scoreInfos) {
+	let list = [];
+
+	for(var i = 0; i < 15; i++) {
+		for(var j = 0; j < 15; j++) {
+			var score = scoreInfos[i][j];
+			if(score&&mineMax == score.mine) {
+				list.push(new ScoreInfo(i,j,scoreInfos[i][j].enemy));
+			}
+		}
+	}
+	return list;
+}
+
+function getHigh(list) {
+	var i = 0;
+	var max = list[0].score;
+
+	for(var j = 1; j < list.length; j++) {
+		if(list[j].score > max) {
+			i = j;
+			max = list[j].score;
+		}
+	}
+	return list[i];
+}
+
+function getMineHigh(list) {
+	let list = [];
+
+	for(var i = 0; i < 15; i++) {
+		for(var j = 0; j < 15; j++) {
+			if(mineMax == scoreInfos[i][j].mine) {
+				list.add(scoreInfos[i][j].mine);
+			}
+		}
+	}
+	return list;
+}
+
+function cal() {
+	console.log("开始计算...")
+	var scoreInfos = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+	console.log("分析我方局势...")
+	calMine(scoreInfos);
+	console.log("分析敌方局势...")
+	calEnemy(scoreInfos);
+	
+	var info;
+	if(mineMax >= enemyMax) {
+		console.log("进攻...")
+		let mineList = getMineHighList(scoreInfos);
+		var info = getHigh(mineList);
+	} else {
+		console.log("防御...")
+		let enemyList = getEnemyHighList(scoreInfos);
+		var info = getHigh(enemyList);
+	}
+	console.log("着子...")
+	drown(info.row,info.column);
 }

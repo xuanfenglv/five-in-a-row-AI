@@ -1,17 +1,40 @@
 $(() => {
 	initBoard();
-	$("td").click(function() {
-		var qs = parseInt($(".v1").html());
-
+	$("#board td").click(function() {
 		var row = $(this).parent().index();
 		var column = $(this).index();
-		if(qipan[row][column] == 0) {
+		var isWin = drown(row,column);
+		
+		if(!isWin)
+			cal();
+	});
+	$("#cz").click(function() {
+		reSet();
+		
+	})
+	$("#qh").click(function() {
+		if($(this).html()=="人") {
+			$("#calBoardEnemy").hide();
+			$("#calBoardMine").show();
+			$(this).html('AI');
+		} else {
+			$("#calBoardEnemy").show();
+			$("#calBoardMine").hide();
+			$(this).html('人');
+		}
+	})
+	
+});
+var qipan = new Array();
+function drown(row,column) {
+	if(qipan[row][column] == 0) {
+		var qs = parseInt($(".v1").html());
 			if(qs % 2 == 0) {
-				$(this).css("background-image", "url(img/black.png)");
+				$("table tr:eq("+row+") td:eq("+column+")").css("background-image", "url(img/black.png)");
 				qipan[row][column] = 1;
 				$("#set").val("白方下");
 			} else {
-				$(this).css("background-image", "url(img/white.png)");
+				$("table tr:eq("+row+") td:eq("+column+")").css("background-image", "url(img/white.png)");
 				qipan[row][column] = 2;
 				$("#set").val("黑方下");
 			}
@@ -25,15 +48,11 @@ $(() => {
 					alert("黑方胜");
 				}
 				reSet();
+				return true;
 			}
+			return false;
 		}
-	});
-	$("#cz").click(function() {
-		reSet();
-	})
-});
-var qipan = new Array();
-
+}
 function initBoard() {
 	var board = document.getElementById("board");
 
