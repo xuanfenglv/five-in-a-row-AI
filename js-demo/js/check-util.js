@@ -8,6 +8,10 @@ map.set(6,100);
 map.set(7,15);
 map.set(8,0);
 
+var red = 255;
+var green = 87;
+var blue = 34;
+
 class ScoreInfo {
 	constructor(row, column, score) {
 		this.row = row;
@@ -35,17 +39,17 @@ class Pair {
 	}
 	
 	isHalf1ValEquals(index) {
-		return this.getHalf1Val(index) == type;
+		return this.getHalf1Val(index) == this.type;
 	}
 	isHalf2ValEquals(index) {
-		return this.getHalf2Val(index) == type;
+		return this.getHalf2Val(index) == this.type;
 	}
 	
 	getHalf1Val(index) {
-		return(index + this.half1Continue > 4) ? 3 : this.half1[index + this.half1Continue];
+		return(index + this.half1Continue > 4) ? 3 : this.half1[index + this.half1Continue-1];
 	}
 	getHalf2Val(index) {
-		return(index + this.half2Continue > 4) ? 3 : this.half2[index + this.half2Continue];
+		return(index + this.half2Continue > 4) ? 3 : this.half2[index + this.half2Continue-1];
 	}
 }
 
@@ -183,7 +187,7 @@ let mineMax = 0;
 
 function calEnemy(scoreInfos) {
 	let max = 0;
-	$("#calBoardEnemy td").html("");
+	
 	for(var i = 0; i < 15; i++) {
 		for(var j = 0; j < 15; j++) {
 			if(qipan[i][j] == 0) {
@@ -191,9 +195,20 @@ function calEnemy(scoreInfos) {
 				var pair2 = getColumnPair(i, j, 1);
 				var pair3 = getX1Pair(i, j, 1);
 				var pair4 = getX2Pair(i, j, 1);
-				var sum = getScore(pair1) + getScore(pair2) + getScore(pair3) + getScore(pair4);
+				
+				var rowScore = getScore(pair1);
+				var columnScore = getScore(pair2);
+				var x1Score = getScore(pair3);
+				var x2Score = getScore(pair4);
+				
+				var sum =  rowScore+columnScore+x1Score+x2Score;
 				scoreInfos[i][j].enemy = sum;
-				$("#calBoardEnemy tr:eq("+i+") td:eq("+j+")").html(sum);
+				
+				var enemyTd= $("#calBoardEnemy tr:eq("+i+") td:eq("+j+")");
+				enemyTd.html(sum+'<br>'+rowScore+','+columnScore+'<br>'+x1Score+','+x2Score);
+				var ratio = sum/10000+0.1;
+				var color = "rgb("+parseInt(red*ratio)+","+parseInt(green*ratio)+","+parseInt(blue*ratio)+")";
+				enemyTd.css("background-color",color)
 				if(sum > max) {
 					max = sum;
 				}
@@ -206,19 +221,28 @@ function calEnemy(scoreInfos) {
 
 function calMine(scoreInfos) {
 	let max = 0;
-	$("#calBoardMine td").html("");
+	
 	for(var i = 0; i < 15; i++) {
 		for(var j = 0; j < 15; j++) {
 			if(qipan[i][j] == 0) {
 				var pair1 = getRowPair(i, j, 2);
 				var pair2 = getColumnPair(i, j, 2);
-				
 				var pair3 = getX1Pair(i, j, 2);
 				var pair4 = getX2Pair(i, j, 2);
-				var sum = getScore(pair1) + getScore(pair2) + getScore(pair3) + getScore(pair4);
+				
+				var rowScore = getScore(pair1);
+				var columnScore = getScore(pair2);
+				var x1Score = getScore(pair3);
+				var x2Score = getScore(pair4);
+				
+				var sum =  rowScore+columnScore+x1Score+x2Score;
 				scoreInfos[i][j]={};
 				scoreInfos[i][j].mine = sum;
-				$("#calBoardMine tr:eq("+i+") td:eq("+j+")").html(sum);
+				var mineTd= $("#calBoardMine tr:eq("+i+") td:eq("+j+")");
+				mineTd.html(sum+'<br>'+rowScore+','+columnScore+'<br>'+x1Score+','+x2Score);
+				var ratio = sum/10000+0.1;
+				var color = "rgb("+parseInt(red*ratio)+","+parseInt(green*ratio)+","+parseInt(blue*ratio)+")";
+				mineTd.css("background-color",color)
 				if(sum > max) {
 					max = sum;
 				}
@@ -285,6 +309,7 @@ function getMineHigh(list) {
 
 function cal() {
 	console.log("开始计算...")
+	reSetAnalyze();
 	var scoreInfos = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 	console.log("分析我方局势...")
 	calMine(scoreInfos);

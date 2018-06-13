@@ -1,12 +1,16 @@
 $(() => {
 	initBoard();
 	$("#board td").click(function() {
-		var row = $(this).parent().index();
-		var column = $(this).index();
-		var isWin = drown(row,column);
+		var qs = parseInt($(".v1").html());
+		if(qs % 2 == 0) {
+			var row = $(this).parent().index();
+			var column = $(this).index();
+			var isWin = drown(row,column);
 		
-		if(!isWin)
-			cal();
+			if(!isWin)
+				cal();
+			}
+		
 	});
 	$("#cz").click(function() {
 		reSet();
@@ -84,6 +88,13 @@ function initBoard() {
 	}
 }
 
+function reSetAnalyze() {
+	$("#calBoardMine td").html("");
+	$("#calBoardMine td").css("background-color","white");
+	
+	$("#calBoardEnemy td").html("");
+	$("#calBoardEnemy td").css("background-color","white");
+}
 function reSet() {
 	var board = document.getElementById("board");
 
@@ -93,6 +104,7 @@ function reSet() {
 			board.rows[i].cells[j].style.background = "";
 		}
 	}
+	reSetAnalyze();
 	$(".v1").html("0");
 	$(".v2").html("0");
 	$("#set").val("黑方下");
