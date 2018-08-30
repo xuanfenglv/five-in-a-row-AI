@@ -177,7 +177,6 @@ function getPair(half1, half2, type) {
 	let pair = new Pair(half1, half2, type,
 		half1Continue, half2Continue);
 		if(pair.continue==4) {
-			debugger;
 		}
 	return pair;
 }

@@ -47,11 +47,11 @@ function drown(row,column) {
 			$(".v2").html(Math.ceil(qs / 2));
 			if(isWin(row, column)) {
 				if(qs % 2 == 0) {
-					alert("白方胜");
+					tip("白方胜");
 				} else {
-					alert("黑方胜");
+					tip("黑方胜");
 				}
-				reSet();
+//				reSet();
 				return true;
 			}
 			return false;
