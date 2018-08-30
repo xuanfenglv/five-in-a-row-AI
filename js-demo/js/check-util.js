@@ -77,7 +77,7 @@ function getScore(pair) {
 		} else if(!pair.isHalf1ValEmpty(1) && !pair.isHalf2ValEmpty(2)) {// 两侧无空
 			type = 8;
 		} else { // 两侧有一侧为空
-			if(pair.isHalf1ValEmpty(1)) { //
+			if(pair.isHalf1ValEmpty(1)) { //1侧有空
 				if(pair.isHalf1ValEmpty(2)) {
 					type = 5;
 				} else if(pair.isHalf1ValEquals(2)) {
@@ -85,7 +85,7 @@ function getScore(pair) {
 				} else {
 					type = 8;
 				}
-			} else {
+			} else { //2侧有空
 				if(pair.isHalf2ValEmpty(2)) {
 					type = 5;
 				} else if(pair.isHalf2ValEquals(2)) {
